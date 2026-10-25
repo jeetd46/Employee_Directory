@@ -2,7 +2,6 @@ package com.api.employeeDirectory.controller;
 
 import com.api.employeeDirectory.dto.EmployeeRequest;
 import com.api.employeeDirectory.dto.EmployeeResponse;
-import com.api.employeeDirectory.services.EmployeeService;
 import com.api.employeeDirectory.services.EmployeeServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;

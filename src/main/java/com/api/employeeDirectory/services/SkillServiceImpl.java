@@ -4,7 +4,6 @@ import com.api.employeeDirectory.dto.SkillRequest;
 import com.api.employeeDirectory.dto.SkillResponse;
 import com.api.employeeDirectory.entity.Skill;
 import com.api.employeeDirectory.exception.ConflictException;
-import com.api.employeeDirectory.exception.ResourceNotFoundException;
 import com.api.employeeDirectory.repository.SkillRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;

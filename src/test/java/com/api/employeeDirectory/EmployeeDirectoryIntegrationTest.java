@@ -40,11 +40,11 @@ class EmployeeDirectoryIntegrationTest {
 
     @Test
     void invalidDepartmentRequestReturnsStructuredError() throws Exception {
-        mockMvc.perform(get("/api/departments/1"))
-                .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.status").value(404))
-                .andExpect(jsonPath("$.error").value("Not Found"))
-                .andExpect(jsonPath("$.message").value("Department not found with id: "+1))
-                .andExpect(jsonPath("$.path").value("/api/departments/1"));
+        mockMvc.perform(post("/api/departments")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"name\":\" \"}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value(400))
+                .andExpect(jsonPath("$.fieldErrors.name").exists());
     }
 }

@@ -4,13 +4,10 @@ package com.api.employeeDirectory.controller;
 import com.api.employeeDirectory.dto.DepartmentRequest;
 import com.api.employeeDirectory.dto.DepartmentResponse;
 import com.api.employeeDirectory.dto.EmployeeResponse;
-import com.api.employeeDirectory.services.DepartmentService;
 import com.api.employeeDirectory.services.DepartmentServiceImpl;
-import com.api.employeeDirectory.services.EmployeeService;
 import com.api.employeeDirectory.services.EmployeeServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

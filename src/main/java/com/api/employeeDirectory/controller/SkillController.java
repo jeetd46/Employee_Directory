@@ -2,7 +2,6 @@ package com.api.employeeDirectory.controller;
 
 import com.api.employeeDirectory.dto.SkillRequest;
 import com.api.employeeDirectory.dto.SkillResponse;
-import com.api.employeeDirectory.services.SkillService;
 import com.api.employeeDirectory.services.SkillServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
