@@ -1,0 +1,513 @@
+openapi: 3.1.0
+info:
+  title: Employee Directory API
+  version: v0
+servers:
+- url: http://localhost:8080
+  description: Employee Details
+  tags:
+    - name: Departments
+    - name: Employees
+    - name: Skills
+    - name: Info
+paths:
+  /api/employees/{id}:
+    get:
+      tags: [Employees]
+      summary : Get employee by ID including department and skills
+      operationId: findById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/EmployeeResponse"
+    put:
+      tags: [Employees]
+      operationId: update
+      summary: Update employee details and department/skills
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmployeeRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/EmployeeResponse"
+    delete:
+      tags: [Employees]
+      operationId: delete
+      summary: Delete employee
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+  /api/departments/{id}:
+    get:
+      tags: [Departments]
+      summary: Get department by ID
+      operationId: findById_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DepartmentResponse"
+    put:
+      tags: [Departments]
+      operationId: update_1
+      summary: Update department
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DepartmentRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DepartmentResponse"
+    delete:
+      tags: [Departments]
+      operationId: delete_1
+      summary: Delete department (only when it has no employees)
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+  /api/skills:
+    get:
+      tags: [Skills]
+      summary: List skills
+      operationId: findAll
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SkillResponse"
+    post:
+      tags: [Skills]
+      summary: Creat skill
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SkillRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/SkillResponse"
+  /api/employees:
+    get:
+      tags: [Employees]
+      summary: List employees with optional department filter and pagination
+      operationId: findAll_1
+      parameters:
+      - name: departmentId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        required: false
+        schema:
+          type: string
+          default: id
+      - name: sortDir
+        in: query
+        required: false
+        schema:
+          type: string
+          default: asc
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PageEmployeeResponse"
+    post:
+      tags: [Employees]
+      summary: Create employee
+      operationId: create_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmployeeRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/EmployeeResponse"
+  /api/employees/{id}/skills/{sid}:
+    post:
+      tags: [Employees]
+      summary: Add a skill to an employee
+      operationId: addSkill
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: sid
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/EmployeeResponse"
+    delete:
+      tags: [Employees]
+      summary: Remove a skill from an employee
+      operationId: removeSkill
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: sid
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/EmployeeResponse"
+  /api/departments:
+    get:
+      tags: [Departments]
+      summary: List departments
+      operationId: findAll_2
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DepartmentResponse"
+    post:
+      tags: [Departments]
+      summary: Create department
+      operationId: create_2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DepartmentRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DepartmentResponse"
+  /api/info:
+    get:
+      tags: [Info]
+      summary: Get application name and version
+      operationId: info
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/InfoResponse"
+  /api/departments/{id}/employees:
+    get:
+      tags: [Departments]
+      summary: List employees in a department
+      operationId: findEmployees
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/EmployeeResponse"
+components:
+  schemas:
+    EmployeeRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+        email:
+          type: string
+          format: email
+          minLength: 1
+        designation:
+          type: string
+        joiningDate:
+          type: string
+          format: date
+        departmentId:
+          type: integer
+          format: int64
+        skillIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+          uniqueItems: true
+      required:
+      - departmentId
+      - email
+      - joiningDate
+      - name
+    DepartmentSummary:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    EmployeeResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        email:
+          type: string
+        designation:
+          type: string
+        joiningDate:
+          type: string
+          format: date
+        department:
+          $ref: "#/components/schemas/DepartmentSummary"
+        skills:
+          type: array
+          items:
+            $ref: "#/components/schemas/SkillResponse"
+          uniqueItems: true
+    SkillResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        category:
+          type: string
+    DepartmentRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+        location:
+          type: string
+      required:
+      - name
+    DepartmentResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        location:
+          type: string
+        headCount:
+          type: integer
+          format: int32
+    SkillRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 100
+          minLength: 0
+        category:
+          type: string
+          maxLength: 100
+          minLength: 0
+      required:
+      - name
+    InfoResponse:
+      type: object
+      properties:
+        name:
+          type: string
+        version:
+          type: string
+    PageEmployeeResponse:
+      type: object
+      properties:
+        totalPages:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int64
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/EmployeeResponse"
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: "#/components/schemas/SortObject"
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        pageable:
+          $ref: "#/components/schemas/PageableObject"
+        empty:
+          type: boolean
+    PageableObject:
+      type: object
+      properties:
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: "#/components/schemas/SortObject"
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        unpaged:
+          type: boolean
+    SortObject:
+      type: object
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
