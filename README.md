@@ -153,7 +153,10 @@ Errors use a consistent JSON shape:
   "status": 400,
   "error": "Bad Request",
   "message": "Request validation failed",
-  "path": "/api/departments"
+  "path": "/api/employees",
+  "fieldErrors": {
+    "departmentId": "Department ID is required"
+  }
 }
 ```
 
